@@ -2,3 +2,6 @@
 In the repository, we work on the LD Score regression analysis, a part of the pQTL pipeline.
 
 - The ldsc regression sub-analysis was initiated today (Fri, 10:55, 01-Mar-24).
+
+git config --global --edit
+git commit --amend --reset-author
