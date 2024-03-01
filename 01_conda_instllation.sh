@@ -43,3 +43,4 @@ git clone https://github.com/dariushghasemi/pqtl_pipeline_ldsc.git
 
 ## add email to account for contributions
 git config user.mail "dariush.ghasemi@fht.org"
+git config --global user.email "dariush.ghasemi@fht.org"
