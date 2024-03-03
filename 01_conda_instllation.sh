@@ -44,3 +44,19 @@ git clone https://github.com/dariushghasemi/pqtl_pipeline_ldsc.git
 ## add email to account for contributions
 git config user.mail "dariush.ghasemi@fht.org"
 git config --global user.email "dariush.ghasemi@fht.org"
+
+git config --global --edit
+git commit --amend --reset-author
+
+
+## install ldsc from github
+git clone https://github.com/bulik/ldsc.git
+cd ldsc
+
+## make ldsc env
+conda env create --name ldsc --file environment.yml
+source activate ldsc
+
+## test ldsc
+./ldsc.py -h
+./munge_sumstats.py -h
