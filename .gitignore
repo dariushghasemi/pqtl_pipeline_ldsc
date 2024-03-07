@@ -52,3 +52,10 @@ output/
 data/
 
 *.png
+*.bed
+*.bim
+*.fam
+*.nosex
+slurm*
+slurm/
+*.log

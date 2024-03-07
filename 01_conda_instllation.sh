@@ -60,3 +60,93 @@ source activate ldsc
 ## test ldsc
 ./ldsc.py -h
 ./munge_sumstats.py -h
+
+# download plink from here
+https://www.cog-genomics.org/plink/
+
+# install plink 1.9
+cd bin/
+wget https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20231211.zip
+unzip plink_linux_x86_64_20231211.zip -d plink_install
+cd plink_install/
+cp plink /usr/local/bin
+chmod 755 /usr/local/bin/plink
+nano ~/.bashrc
+export PATH=/usr/local/bin:$PATH
+
+
+# split chromosome
+ plink --bfile filename --extract snpfilename.txt --make-bed --out new_filename
+ plink --bfile /processing_data/shared_datasets/plasma_proteome/interval/genotypes/merged_imputation --chr 22 --make-bed --out chr22
+
+#update ldsc env
+cd ~/bin/ldsc/
+conda env update --file environment.yml
+
+
+########################
+Call: 
+./ldsc.py \
+--out output/ld.subset_chr22 \
+--bfile data/subset_chr22 \
+--l2  \
+--ld-wind-kb 1.0 
+
+Beginning analysis at Thu Mar  7 21:51:09 2024
+Read list of 1000 SNPs from data/subset_chr22.bim
+Read list of 43059 individuals from data/subset_chr22.fam
+Reading genotypes from data/subset_chr22.bed
+After filtering, 1000 SNPs remain
+Estimating LD Score.
+Writing LD Scores for 1000 SNPs to output/ld.subset_chr22.l2.ldscore.gz
+
+Summary of LD Scores in output/ld.subset_chr22.l2.ldscore.gz
+             MAF       L2
+mean  1.3217e-01   2.6546
+std   1.4383e-01   1.6319
+min   1.1614e-05   0.9983
+25%   1.6943e-02   1.4000
+50%   6.7728e-02   2.2244
+75%   2.1964e-01   3.3143
+max   4.9895e-01  10.0688
+
+MAF/LD Score Correlation Matrix
+        MAF      L2
+MAF  1.0000  0.5132
+L2   0.5132  1.0000
+Analysis finished at Thu Mar  7 21:51:15 2024
+
+#---------
+Call: 
+./ldsc.py \
+--ld-wind-cm 1.0 \
+--out output/ld.subset_chr22_2 \
+--bfile data/subset_chr22 \
+--yes-really  \
+--l2  
+
+Beginning analysis at Thu Mar  7 22:26:35 2024
+Read list of 1000 SNPs from data/subset_chr22.bim
+Read list of 43059 individuals from data/subset_chr22.fam
+Reading genotypes from data/subset_chr22.bed
+After filtering, 1000 SNPs remain
+Estimating LD Score.
+Writing LD Scores for 1000 SNPs to output/ld.subset_chr22_2.l2.ldscore.gz
+
+Summary of LD Scores in output/ld.subset_chr22_2.l2.ldscore.gz
+             MAF       L2
+mean  1.3217e-01   2.9386
+std   1.4383e-01   1.7568
+min   1.1614e-05   0.9911
+25%   1.6943e-02   1.5446
+50%   6.7728e-02   2.5654
+75%   2.1964e-01   3.7303
+max   4.9895e-01  10.1957
+
+MAF/LD Score Correlation Matrix
+        MAF      L2
+MAF  1.0000  0.5361
+L2   0.5361  1.0000
+Analysis finished at Thu Mar  7 22:26:43 2024
+
+#---------
