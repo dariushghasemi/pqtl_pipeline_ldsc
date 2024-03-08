@@ -1,16 +1,24 @@
 #!/usr/bin/bash
 
-source /exchange/healthds/singularity_functions
-source ~/bin/miniconda3/etc/profile.d/conda.sh
+#SBATCH --job-name=04.sh
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=dariush.ghasemi@fht.org
+#SBATCH --output %j_04compute_ld.sh.log
+#SBATCH --partition cpuq
+#SBATCH --cpus-per-task 1
+#SBATCH --mem 8G
+#SBATCH --time 8:00:00
+
+source ~/.bashrc
+#source /exchange/healthds/singularity_functions
+#source ~/bin/miniconda3/etc/profile.d/conda.sh
 
 base=/home/dariush.ghasemi/projects/pqtl_pipeline_ldsc
-ldsc=/home/dariush.ghasemi/bin/ldsc/ldsc.py
+ldsc=/home/dariush.ghasemi/bin/ldsc
 
-#conda init
-#conda activate
 conda activate ldsc
 
-python $ldsc  \
+python $ldsc/ldsc.py  \
 	--bfile $base/data/subset_chr22  \
 	--l2  \
     --maf 0.05  \

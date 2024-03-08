@@ -83,6 +83,10 @@ export PATH=/usr/local/bin:$PATH
 cd ~/bin/ldsc/
 conda env update --file environment.yml
 
+# download regression weights 
+wget https://storage.googleapis.com/broad-alkesgroup-public/LDSCORE/1000G_Phase3_weights_hm3_no_MHC.tgz
+tar zxvf 1000G_Phase3_weights_hm3_no_MHC.tgz
+mv 1000G_Phase3_weights_hm3_no_MHC weights_hm3_no_MHC
 
 ########################
 Call: 
