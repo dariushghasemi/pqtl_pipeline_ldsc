@@ -154,3 +154,16 @@ L2   0.5361  1.0000
 Analysis finished at Thu Mar  7 22:26:43 2024
 
 #---------
+# activate ldsc env for running on clusters
+source /exchange/healthds/singularity_functions
+source ~/bin/miniconda3/etc/profile.d/conda.sh
+eval "$(conda shell.bash hook)"
+eval "$(command conda 'shell.bash' 'hook' 2> /dev/null)"
+
+
+# activate snakemake env
+conda activate /exchange/healthds/software/envs/snakemake
+
+# create pipeline file
+touch Snakefile
+touch config.yaml
