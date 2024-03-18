@@ -167,3 +167,17 @@ conda activate /exchange/healthds/software/envs/snakemake
 # create pipeline file
 touch Snakefile
 touch config.yaml
+
+# list of installed applications
+conda activate
+pip list
+
+# install dependencies and environment for GWASLab
+cd ~/bin
+mkdir gwaslab
+cd ~/bin/gwaslab
+touch gwaslab.yaml
+# paste the dependencies from Mauro's message on Teams
+conda env create --file gwaslab.yaml
+conda env update
+conda env remove --name myname

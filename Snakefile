@@ -12,12 +12,31 @@ rule reshape_sumstats:
         "conda activate ldsc &&"
         "python   {input.app} "
         "--sumstats {input.ifile} "
-        "--snp variant_id "
-        "--a1 effect_allele "
-        "--a2 non_effect_allele "
-        "--p pvalue "
-        "--frq frequency "
-        "--N-col sample_size "
+        "--snp SNP "
+        "--a1 A1 "
+        "--a2 A2 "
+        "--p P "
+        "--frq A1FRQ "
+        "--N-col N "
         "--chunksize 500000 "
         "--a1-inc "
         "--out {output.ofile} "
+
+
+rule reshape_sumstats:
+    input:
+        app = "/home/dariush.ghasemi/bin/ldsc/ldsc.py",
+        ifile = "data/test_prot1.22.cleaned.pip.sumstats.gz"
+        ldfile = "output/ld.subset_chr22_2"
+    output:
+        ofile = "output/ldsc_test_prot1.pip"
+    conda:
+        "ldsc"
+    shell:
+        "source ~/.bashrc &&"
+        "conda activate ldsc &&"
+        "python {input.app} "
+		"--h2 {input.ifile} "
+		"--ref-ld {input.ifile} "
+		"--w-ld {input.ifile} "
+		"--out {output.ofile} "

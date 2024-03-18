@@ -6,10 +6,10 @@
 #SBATCH --mem 4G
 #SBATCH --time 50:00:00
 
-source ~/.bashrc
 base=/home/dariush.ghasemi/projects/pqtl_pipeline_ldsc
 ldsc=/home/dariush.ghasemi/bin/ldsc
 
+source ~/.bashrc
 conda activate ldsc
 
 python  $ldsc/ldsc.py  \
