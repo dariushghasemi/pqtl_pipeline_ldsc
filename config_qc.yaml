@@ -1,0 +1,5 @@
+# paths
+working_path: "/home/dariush.ghasemi/projects/pqtl_pipeline_ldsc"
+sumstat_path: "/group/diangelantonio/users/alessia_mapelli/QC_gen_INTERVAL/QC_steps/StepB/New_analysis"
+sumstat_file: "/recomputed_stats/recoded/snp-stats_chr{chrom}.txt"
+variant_list: "/home/dariush.ghasemi/projects" ##/Variants_QC/recoded" #
