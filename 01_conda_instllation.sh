@@ -181,3 +181,16 @@ touch gwaslab.yaml
 conda env create --file gwaslab.yaml
 conda env update
 conda env remove --name myname
+
+#---------
+# define a function to retrieve gwas summary report #,config.get("sumstat_file")
+def get_sumstats():
+    return str(Path(config.get("sumstat_path")))
+
+# make the path towards output report file
+def dest_path(file_path):
+    return str(Path(config.get("variant_list"), file_path))
+
+input:
+    #sum_stats = get_sumstats()
+#---------
