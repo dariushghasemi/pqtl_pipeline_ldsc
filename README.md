@@ -17,4 +17,6 @@ In the repository, we work on the LD Score regression analysis, a part of the pQ
 
 - Computing LD step has been run on clusters (Thu, 04:15, 21-Mar-24).
 
+- As the genotype data was previously merged and plink is the required format of ldsc app, I used `04_compute_ld.sh` to estimate LD for the entire variants in the merged file for the cohort (Thu, 17:00, 21-Mar-24). 
+
 Dariush
