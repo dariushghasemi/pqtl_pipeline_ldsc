@@ -13,7 +13,8 @@ In the repository, we work on the LD Score regression analysis, a part of the pQ
 
 - Working on genetic correlation. As CORRELATION MEANS, it works only if we have two phenotypes.
 
-- Adding scripts munging summary stats and computing heritability to the pipeline (Thu, 11:45, 14-Mar-24)!
+- Adding scripts munging summary stats and computing heritability to the pipeline (Thu, 11:45, 14-Mar-24).
 
+- Computing LD step has been run on clusters (Thu, 04:15, 21-Mar-24).
 
 Dariush

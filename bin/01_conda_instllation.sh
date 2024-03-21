@@ -57,10 +57,16 @@ cd ldsc
 conda env create --name ldsc --file environment.yml
 source activate ldsc
 
+# To define PATH for ldsc functions in ~/.bashrc
+export "PATH=$HOME/bin/ldsc:$PATH"
+source ~/.bashrc
+
 ## test ldsc
 ./ldsc.py -h
 ./munge_sumstats.py -h
 
+
+#---------------------
 # download plink from here
 https://www.cog-genomics.org/plink/
 

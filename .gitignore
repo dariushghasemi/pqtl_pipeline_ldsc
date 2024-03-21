@@ -35,13 +35,13 @@
 output/
 output_qc/
 data/
+log/
 
 *.png
 *.bed
 *.bim
 *.fam
 *.nosex
-slurm*
-slurm/
+*.out
 *.log
 .snakemake
