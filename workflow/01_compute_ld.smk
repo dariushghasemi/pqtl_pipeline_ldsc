@@ -7,25 +7,30 @@ configfile: "conf/config_ldsc.yaml"
 def ws_path(file_path):
     return str(Path(config.get("path_base"), file_path))
 
+def db_path(file_path):
+    return str(Path(config.get("path_data"), file_path))
+
 
 rule all:
     input: 
         expand(
-            ws_path("output/test/ld.subset_chr{chrom}"),
+            ws_path("output/ld/ld.interval_imputed_chr{chrom}"),
             chrom=[i for i in range(21, 23)]
         )
 
 
 rule compute_ld:
     input:
-        bedfile = ws_path("data/subset_chr{chrom}.bed"),
-        bimfile = ws_path("data/subset_chr{chrom}.bim"),
-        famfile = ws_path("data/subset_chr{chrom}.fam")
+        bedfile = db_path("data/subset_chr{chrom}.bed"),
+        bimfile = db_path("data/subset_chr{chrom}.bim"),
+        famfile = db_path("data/subset_chr{chrom}.fam")
     output:
-        ofile = ws_path("output/test/ld.subset_chr{chrom}"),
-        log   = ws_path('output/test/ld.subset_chr{chrom}.log')
+        ofile = ws_path("output/ld/ld.interval_imputed_chr{chrom}"),
+        log   = ws_path('output/ld/ld.interval_imputed_chr{chrom}.log')
     params:
-        ifile = ws_path("data/subset_chr{chrom}")
+        ifile = db_path("output/ld/ld.interval_imputed_chr{chrom}")
+    log:
+        ws_path("log/ld.interval_imputed_chr{chrom}.log")
     container:
         "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     #conda:

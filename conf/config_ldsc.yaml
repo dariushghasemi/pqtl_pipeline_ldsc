@@ -1,2 +1,3 @@
 path_base: "/home/dariush.ghasemi/projects/pqtl_pipeline_ldsc"
 path_ldsc: "/home/dariush.ghasemi/bin/ldsc"
+path_data: "/processing_data/shared_datasets/plasma_proteome/interval/genotypes"
