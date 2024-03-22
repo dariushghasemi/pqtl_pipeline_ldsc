@@ -200,3 +200,11 @@ def dest_path(file_path):
 input:
     #sum_stats = get_sumstats()
 #---------
+
+git remote -v
+# authenticate
+ssh -T git@github.com
+
+# redefine the ssh url for remote origin: ->  $$$ it works $$$
+git remote set-url origin git@github.com:dariushghasemi/pqtl_pipeline_ldsc/
+git push

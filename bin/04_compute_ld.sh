@@ -4,7 +4,7 @@
 #SBATCH --output %j_compte_ld.log
 #SBATCH --partition cpuq
 #SBATCH --cpus-per-task 1
-#SBATCH --mem 64G
+#SBATCH --mem 128G
 #SBATCH --time 100:00:00
 
 genotype=/processing_data/shared_datasets/plasma_proteome/interval/genotypes
