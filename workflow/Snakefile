@@ -1,42 +1,102 @@
+from pathlib import Path
 
-rule reshape_sumstats:
+configfile: "conf/config_ldsc.yaml"
+
+
+def ws_path(file_path):
+    return str(Path(config.get("path_base"), file_path))
+
+def db_path(file_path):
+    return str(Path(config.get("path_data"), file_path))
+
+def ss_path(file_path):
+    return str(Path(config.get("path_pwas"), file_path))
+
+
+rule all:
+    input: 
+        expand(
+            ws_path("output/munge/ld.interval_imputed_chr{chrom}"),
+            chrom=[i for i in range(21, 23)]
+        )
+
+rule append_pvalue:
     input:
-        app = "/home/dariush.ghasemi/bin/ldsc/munge_sumstats.py",
-        ifile = "data/test_prot1.22.to_clean.gz"
+        ifile = ss_path("gwas/seq.13124.20.gwas.regenie.gz")
     output:
-        ofile = "data/test_prot1.22.cleaned.pip"
-    conda:
-        "ldsc"
+        ofile = ws_path("output/pwas/seq.13124.20.gwas.regenie")
+    log:
+        ws_path("logs/pwas/seq.13124.20.gwas.regenie.gz.log")
+    container:
+        "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
+    shell:
+    """
+    zcat {input.ifile} | \
+    awk 'BEGIN {OFS="\t"} NR==1 {print $0, "P"} NR>1 {print $0, 10^-$11}' | \
+    gzip -c > {output.ofile} 2> {log}
+    """
+
+
+rule munge_sumstats:
+    input:
+        ifile = ws_path("output/pwas/seq.13124.20.gwas.regenie")
+    output:
+        ofile = ws_path("output/munge/seq.13124.20.gwas.regenie")
+    log:
+        ws_path("logs/munge/seq.13124.20.gwas.regenie.gz.log")
+    container:
+        "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     shell:
         "source ~/.bashrc &&"
         "conda activate ldsc &&"
-        "python   {input.app} "
+        "munge_sumstats.py "
         "--sumstats {input.ifile} "
-        "--snp SNP "
-        "--a1 A1 "
-        "--a2 A2 "
+        "--snp ID "
+        "--a1 ALLELE0 "
+        "--a2 ALLELE1 "
         "--p P "
-        "--frq A1FRQ "
+        "--frq A1FREQ "
         "--N-col N "
         "--chunksize 500000 "
         "--a1-inc "
         "--out {output.ofile} "
 
 
-rule reshape_sumstats:
+rule compute_herit:
     input:
-        app = "/home/dariush.ghasemi/bin/ldsc/ldsc.py",
-        ifile = "data/test_prot1.22.cleaned.pip.sumstats.gz"
-        ldfile = "output/ld.subset_chr22_2"
+        famfile = ss_path("gwas/seq.13124.20.gwas.regenie.gz")
     output:
-        ofile = "output/ldsc_test_prot1.pip"
-    conda:
-        "ldsc"
+        ofile = ws_path("output/munge/seq.13124.20.gwas.regenie")
+    log:
+        ws_path("logs/ld/ld.interval_imputed_chr{chrom}.log")
+    container:
+        "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     shell:
-        "source ~/.bashrc &&"
-        "conda activate ldsc &&"
-        "python {input.app} "
-		"--h2 {input.ifile} "
-		"--ref-ld {input.ifile} "
-		"--w-ld {input.ifile} "
-		"--out {output.ofile} "
+        "source ~/.bashrc && " 
+        "conda activate ldsc  && "
+        "ldsc.py  "
+        "    --bfile {params.ifile} "
+        "    --l2  "  
+        "    --maf 0.05  "
+        "    --ld-wind-cm 1  "
+        "    --yes-really  "
+        "    --out {output.ofile}  2> {log}"
+
+
+# rule compute_herit:
+#     input:
+#         app = "/home/dariush.ghasemi/bin/ldsc/ldsc.py",
+#         ifile = "data/test_prot1.22.cleaned.pip.sumstats.gz"
+#         ldfile = "output/ld.subset_chr22_2"
+#     output:
+#         ofile = "output/ldsc_test_prot1.pip"
+#     conda:
+#         "ldsc"
+#     shell:
+#         "source ~/.bashrc &&"
+#         "conda activate ldsc &&"
+#         "python {input.app} "
+# 		"--h2 {input.ifile} "
+# 		"--ref-ld {input.ifile} "
+# 		"--w-ld {input.ifile} "
+# 		"--out {output.ofile} "
