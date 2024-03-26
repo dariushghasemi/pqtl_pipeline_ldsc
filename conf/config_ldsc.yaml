@@ -1,3 +1,4 @@
 path_base: "/home/dariush.ghasemi/projects/pqtl_pipeline_ldsc"
 path_ldsc: "/home/dariush.ghasemi/bin/ldsc"
-path_data: "/processing_data/shared_datasets/plasma_proteome/interval/genotypes"
+path_data: "/scratch/giulia.pontali/test_snakemake/genomics_QC_pipeline/results"
+path_geno: "/scratch/dariush.ghasemi/genotype/imputed/plink"
