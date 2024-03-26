@@ -19,18 +19,44 @@ rule all:
         )
 
 
+rule convert_pgen:
+    input:
+        pgen  = db_path("pgen/impute_recoded_selected_sample_filter_hq_var_{chrom}.pgen")
+    output:
+        bedfile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}.bed"),
+        bimfile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}.bim"),
+        famfile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}.fam")
+    params:
+        pgen  = db_path("pgen/impute_recoded_selected_sample_filter_hq_var_{chrom}"),
+        plink = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}")
+    log:
+        ws_path("logs/convertion/interval_imputed_chr{chrom}.log")
+    container:
+        "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
+    shell:
+        """
+        source /exchange/healthds/singularity_functions &&  \
+        plink2  \
+            --pfile  {params.pgen} \
+            --recode  \
+            --out    {params.plink}  \
+            --threads 8  \
+            --memory 90000 'require' 2> {log}
+        """
+
+
 rule compute_ld:
     input:
-        bedfile = db_path("data/subset_chr{chrom}.bed"),
-        bimfile = db_path("data/subset_chr{chrom}.bim"),
-        famfile = db_path("data/subset_chr{chrom}.fam")
+        bedfile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}.bed"),
+        bimfile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}.bim"),
+        famfile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}.fam")
     output:
         ofile = ws_path("output/ld/ld.interval_imputed_chr{chrom}"),
-        log   = ws_path('output/ld/ld.interval_imputed_chr{chrom}.log')
+        #log   = ws_path('output/ld/ld.interval_imputed_chr{chrom}.log')
     params:
-        ifile = db_path("output/ld/ld.interval_imputed_chr{chrom}")
+        ifile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}")
     log:
-        ws_path("log/ld.interval_imputed_chr{chrom}.log")
+        ws_path("logs/ld/ld.interval_imputed_chr{chrom}.log")
     container:
         "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     #conda:
@@ -44,5 +70,5 @@ rule compute_ld:
         "    --maf 0.05  "
         "    --ld-wind-cm 1  "
         "    --yes-really  "
-        "    --out {output.ofile}"
+        "    --out {output.ofile}  2> {log}"
 
