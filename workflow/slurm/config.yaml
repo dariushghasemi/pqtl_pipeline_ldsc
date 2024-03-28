@@ -16,7 +16,7 @@ scheduler: ilp
 
 default-resources:
     slurm_partition: cpuq #cpu-interactive
-    # slurm_account: ${USER}
+    #slurm_account: ${USER}
     mem_mb: attempt * 512
     threads: 1
     runtime: attempt * 5
@@ -47,3 +47,6 @@ set-resources:
     merge_filter_hq_variants:
       mem_mb: 102400 + attempt * 2048
       threads: *cores
+    compute_ld:
+      mem_mb: 102400 + attempt * 2048
+      threads: *cores    

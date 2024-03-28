@@ -1,5 +1,7 @@
 path_base: "/home/dariush.ghasemi/projects/pqtl_pipeline_ldsc"
-path_ldsc: "/home/dariush.ghasemi/bin/ldsc"
 path_data: "/scratch/giulia.pontali/test_snakemake/genomics_QC_pipeline/results"
 path_geno: "/scratch/dariush.ghasemi/genotype/imputed/plink"
-path_pwas: "/exchange/healthds/pQTL/results/INTERVAL/chunk_1083/chunk_1083_output/chunk_1083/results"
+#path_pwas: "/exchange/healthds/pQTL/results/INTERVAL/chunk_1083/chunk_1083_output/chunk_1083/results"
+path_ldsc: "/home/dariush.ghasemi/projects/pqtl_pipeline_ldsc/output/ld/ld.interval_imputed_chr"
+path_pwas: "/exchange/healthds/pQTL/results/INTERVAL_OLD/harmonized_sumstats/outputs"
+sample_seqids: ["7930.3", "13124.20", "7935.26", "7943.16", "19819.7", "5124.69"]

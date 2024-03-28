@@ -2,10 +2,10 @@
 
 #SBATCH --job-name ld_comp
 #SBATCH --output %j_ld_comp.log
-#SBATCH --partition cpu-interactive
+#SBATCH --partition cpuq
 #SBATCH --cpus-per-task 1
 #SBATCH --mem 8G
-#SBATCH --time 1:00:00
+#SBATCH --time 72:00:00
 
 source ~/.bashrc
 module -s load singularity/3.8.5
@@ -31,5 +31,5 @@ esac
 
 # run the pipeline
 conda activate /exchange/healthds/software/envs/snakemake
-snakemake  --snakefile workflow/01_compute_ld.smk   --profile slurm
+snakemake  --snakefile rules/01_compute_ld.smk   --profile slurm  #--unlock
 conda deactivate

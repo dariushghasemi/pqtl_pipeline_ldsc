@@ -1,7 +1,7 @@
 
 from pathlib import Path
 
-configfile: "conf/config_ldsc.yaml"
+configfile: "../conf/config_ldsc.yaml"
 
 
 def ws_path(file_path):
@@ -30,7 +30,7 @@ rule convert_pgen:
         pgen  = db_path("pgen/impute_recoded_selected_sample_filter_hq_var_{chrom}"),
         plink = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}")
     log:
-        ws_path("logs/convertion/interval_imputed_chr{chrom}.log")
+        ws_path("logs/conversion/interval_imputed_chr{chrom}.log")
     container:
         "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     shell:
@@ -38,7 +38,7 @@ rule convert_pgen:
         source /exchange/healthds/singularity_functions &&  \
         plink2  \
             --pfile  {params.pgen} \
-            --recode  \
+            --make-bed  \
             --out    {params.plink}  \
             --threads 8  \
             --memory 90000 'require' 2> {log}
@@ -52,13 +52,14 @@ rule compute_ld:
         famfile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}.fam")
     output:
         ofile = ws_path("output/ld/ld.interval_imputed_chr{chrom}"),
-        #log   = ws_path('output/ld/ld.interval_imputed_chr{chrom}.log')
     params:
         ifile = ws_path("output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr{chrom}")
     log:
         ws_path("logs/ld/ld.interval_imputed_chr{chrom}.log")
     container:
         "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
+    resources:
+        runtime=lambda wc, attempt: attempt * 60,
     #conda:
         #"envs/ldsc.yml"
     shell:

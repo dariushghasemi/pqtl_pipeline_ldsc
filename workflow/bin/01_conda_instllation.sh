@@ -208,3 +208,7 @@ ssh -T git@github.com
 # redefine the ssh url for remote origin: ->  $$$ it works $$$
 git remote set-url origin git@github.com:dariushghasemi/pqtl_pipeline_ldsc/
 git push
+
+# make DAG chart
+snakemake --dag | dot -Tpng > heret_workflow.png
+snakemake --snakefile workflow/01_compute_ld.smk --dag | dot -Tpng > analysis_workflow.png

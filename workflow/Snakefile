@@ -14,36 +14,42 @@ def ss_path(file_path):
 
 
 rule all:
-    input: 
+    input:
         expand(
-            ws_path("output/munge/ld.interval_imputed_chr{chrom}"),
-            chrom=[i for i in range(21, 23)]
+            ws_path("output/herit/herit.seq.{i}.regenie"),
+            i=[i for i in config["sample_seqids"]]
         )
+
 
 rule append_pvalue:
     input:
-        ifile = ss_path("gwas/seq.13124.20.gwas.regenie.gz")
+        ifile = ss_path("seq.{i}/seq.{i}.regenie.tsv.gz")
     output:
-        ofile = ws_path("output/pwas/seq.13124.20.gwas.regenie")
+        ofile = ws_path("output/pwas/seq.{i}.regenie.gz")
+    params:
+        ifile = ss_path("seq.{i}/seq.{i}.regenie"),
+        ofile = ws_path("output/pwas/seq.{i}regenie.gz")
     log:
-        ws_path("logs/pwas/seq.13124.20.gwas.regenie.gz.log")
+        ws_path("logs/pwas/seq.{i}.regenie.gz.log")
     container:
         "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     shell:
-    """
-    zcat {input.ifile} | \
-    awk 'BEGIN {OFS="\t"} NR==1 {print $0, "P"} NR>1 {print $0, 10^-$11}' | \
-    gzip -c > {output.ofile} 2> {log}
-    """
+        """
+        zcat {params.ifile} | \
+        awk 'BEGIN {{ OFS="\t" }} NR==1 {{ print $0, "P" }} NR>1 {{ print $0, 10^-$11 }}' | \
+        gzip -c > {params.ofile} 2> {log}
+        """
 
 
 rule munge_sumstats:
     input:
-        ifile = ws_path("output/pwas/seq.13124.20.gwas.regenie")
+        ifile = ws_path("output/pwas/seq.{i}.regenie.gz")
     output:
-        ofile = ws_path("output/munge/seq.13124.20.gwas.regenie")
+        ofile = ws_path("output/munge/seq.{i}.regenie.sumstats.gz")
+    params:
+        ofile = ws_path("output/munge/seq.{i}.regenie")
     log:
-        ws_path("logs/munge/seq.13124.20.gwas.regenie.gz.log")
+        ws_path("logs/munge/seq.{i}.regenie.gz.log")
     container:
         "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     shell:
@@ -59,28 +65,28 @@ rule munge_sumstats:
         "--N-col N "
         "--chunksize 500000 "
         "--a1-inc "
-        "--out {output.ofile} "
+        "--out {params.ofile} "
 
 
 rule compute_herit:
     input:
-        famfile = ss_path("gwas/seq.13124.20.gwas.regenie.gz")
+        munged = ws_path("output/munge/seq.{i}.regenie.sumstats.gz"),
     output:
-        ofile = ws_path("output/munge/seq.13124.20.gwas.regenie")
+        ofile  = ws_path("output/herit/herit.seq.{i}.regenie")
+    params:
+        ldfile = config['path_ldsc']
     log:
-        ws_path("logs/ld/ld.interval_imputed_chr{chrom}.log")
+        ws_path("logs/herit/herit.seq.{i}.regenie.log")
     container:
         "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     shell:
         "source ~/.bashrc && " 
         "conda activate ldsc  && "
         "ldsc.py  "
-        "    --bfile {params.ifile} "
-        "    --l2  "  
-        "    --maf 0.05  "
-        "    --ld-wind-cm 1  "
-        "    --yes-really  "
-        "    --out {output.ofile}  2> {log}"
+        "    --h2  {input.munged} "
+        "    --ref-ld-chr  {params.ldfile}@ "  
+        "    --w-ld-chr  {params.ldfile}@ "
+        "    --out  {output.ofile}  2> {log}"
 
 
 # rule compute_herit:
