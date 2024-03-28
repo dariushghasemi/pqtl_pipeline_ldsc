@@ -19,8 +19,8 @@ In the repository, we work on the LD Score regression analysis, a part of the pQ
 
 - As the genotype data was previously merged and plink is the required format of ldsc app, I used `04_compute_ld.sh` to estimate LD for the entire variants in the merged file for the cohort (Thu, 17:00, 21-Mar-24). 
 
-These steps have been integrated into the chain codes:
-1. conversion of the genotype from pgen/pvar/psam to bed/bim/fam via rule **convert_pgen** in `01_compute_ld.smk`
+- These steps have been integrated into the chain codes:
+  1. conversion of the genotype from pgen/pvar/psam to bed/bim/fam via rule **convert_pgen** in `01_compute_ld.smk`
 2. estimation of LD using the converted binary genotypes via rule **compute_ld** in `01_compute_ld.smk`
 3. calculating P-value based on -LOG10P via rule **append_pvalue** in `Snakefile`
 4. munging summary statistics of protein GWAS via rule **munge_sumstats** in `Snakefile`
