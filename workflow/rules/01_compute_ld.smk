@@ -59,7 +59,7 @@ rule compute_ld:
     container:
         "docker://quay.io/biocontainers/plink2:2.00a5--h4ac6f70_0"
     resources:
-        runtime=lambda wc, attempt: attempt * 60,
+        runtime=lambda wc, attempt: attempt * 1440,
     #conda:
         #"envs/ldsc.yml"
     shell:

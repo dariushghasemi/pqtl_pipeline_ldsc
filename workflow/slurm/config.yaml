@@ -20,6 +20,7 @@ default-resources:
     mem_mb: attempt * 512
     threads: 1
     runtime: attempt * 5
+
 set-resources:
     recode_pgen:
         mem_mb: 102400 + attempt * 2048
@@ -48,5 +49,6 @@ set-resources:
       mem_mb: 102400 + attempt * 2048
       threads: *cores
     compute_ld:
-      mem_mb: 102400 + attempt * 2048
-      threads: *cores    
+      mem_mb: 110592 + attempt * 2048
+      threads: *cores
+  
