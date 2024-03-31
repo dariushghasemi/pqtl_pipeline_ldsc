@@ -28,5 +28,21 @@ In the repository, we work on the LD Score regression analysis, a part of the pQ
 
 - The workflow is ready to perform test run on the clusters using 6 selected sumstats and LD estimated from the imputed genotype data (Wed, 02:57, 27-Mar-24).
 
+- The LD test run on CHR21 and CHR22 was completed using `01_compute_ld.smk` on Sat, 23:30, 30-Mar-24.
+
+- After checking the LD scores for CHR21&22, I realized the number of variants were almost less than a half for each chromosome. So, I double checked if this is due to MAF>0.05 filter. SO I followed these two steps:
+
+```{bash}
+# filter out SNPs with MAF<0.05 while converting to plink binary
+plink --bfile  output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr22 --maf 0.05 --make-bed --out output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr22.maf05
+
+# check number of variants of the output
+wc -l output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr22.maf05.bim
+
+```
+
+- As a result, both filtered genotype data (n=79,283) and ld scores (n=79,281) for CHR22 had almost the same #rows. 
+
+- LD score is being computed for teh rest of the loci on the clusters using the pipleine (Sun, 01:07, 31-Mar-24).
 
 Dariush

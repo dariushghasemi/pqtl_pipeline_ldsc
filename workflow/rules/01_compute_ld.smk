@@ -15,7 +15,7 @@ rule all:
     input: 
         expand(
             ws_path("output/ld/ld.interval_imputed_chr{chrom}"),
-            chrom=[i for i in range(21, 23)]
+            chrom=[i for i in range(1, 21)]
         )
 
 
