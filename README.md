@@ -5,7 +5,7 @@ In the repository, we work on the LD Score regression analysis, a part of the pQ
 
 - The genotypes of the INTERVAL study are stored on `/processing_data/shared_datasets/plasma_proteome/interval/genotypes/`.
 
-- The study has 743,989 SNPs for 42,396 individuals. The annotation file is available for 43,732 with batch + 50 PCs `annot_INT_50PCs_pcs.txt` and for 44,814 with only population + 50 PCs `annot_INT_1KG_50_PCs_pcs.txt`.
+- The study has 743,989 SNPs for 42,396 individuals. The annotation file is  available for 43,732 with batch + 50 PCs `annot_INT_50PCs_pcs.txt` and for 44,814 with only population + 50 PCs `annot_INT_1KG_50_PCs_pcs.txt`.
 
 - Munging summary statistics of protein GWAS was done on 176,654 variants in CHR22. Having been munged, 139,401 variants whose rs number was detected left for the h2 calculation (Mon, 23:36, 11-Mar-24).
 
