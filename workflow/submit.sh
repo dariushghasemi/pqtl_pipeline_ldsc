@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #SBATCH --job-name ld_comp
-#SBATCH --output %j_ld_comp.log
+#SBATCH --output %j_ld_comput.log
 #SBATCH --partition cpuq
 #SBATCH --cpus-per-task 1
 #SBATCH --mem 8G
-#SBATCH --time 72:00:00
+#SBATCH --time 10-00:00:00
 
 source ~/.bashrc
 module -s load singularity/3.8.5
