@@ -45,3 +45,4 @@ log/
 *.out
 *.log
 .snakemake
+benchmarks/

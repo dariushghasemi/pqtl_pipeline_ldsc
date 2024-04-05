@@ -43,6 +43,9 @@ wc -l output/plinkFormat/impute_recoded_selected_sample_filter_hq_var_chr22.maf0
 
 - As a result, both filtered genotype data (n=79,283) and ld scores (n=79,281) for CHR22 had almost the same #rows. 
 
-- LD score is being computed for teh rest of the loci on the clusters using the pipleine (Sun, 01:07, 31-Mar-24).
+- LD score is being computed for teh rest of the loci on the clusters using the pipeline (Sun, 01:07, 31-Mar-24).
+
+- Process of ld calculation *is still on the servers (Fri, 23:50, 05-Apr-24). 
+
 
 Dariush
